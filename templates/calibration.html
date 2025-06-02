@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Calibration</title>
+    <link rel="stylesheet" href="/static/css/calibration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>Calibration</h1>
+        </div>
+    </header>
+
+    <h2 class="header-calibration">Select 2D points in the image</h2>
+    <div class="calibration-wrapper">
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+            <div class="button-row">
+                <button class="btn" id ="undo-point">Undo point</button>
+                <button class="btn" id="reset-calibration">Reset calibration</button>
+                <button class="btn" id="upload-calibration">Upload Calibration</button>
+                <button class="btn" id="next-button">Next</button>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div id="points" class="point-list"></div>
+
+            <div id="coordinates-3d-container">
+                <div id="coordinates-3d-fields"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="uploadModal" class="modal hidden">
+        <div class="modal-content">
+            <p>Select the calibration file(.json):</p>
+            <select id="calibration-file-select">
+                <option value="">-- Select a file --</option>
+            </select>
+            <div class="modal-buttons">
+                <button id="upload-confirm" class="btn">Upload</button>
+                <button id="upload-cancel" class="btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SNAPSHOT_PATH = "{{ snapshot_path }}";
+        const FILENAME = "{{ filename | safe }}";
+        console.log("Filename:", FILENAME);
+    </script>
+    
+    <script src="/static/js/calibration.js"></script>
+</body>
+</html>
