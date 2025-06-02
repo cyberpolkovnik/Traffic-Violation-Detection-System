@@ -76,6 +76,7 @@ async def upload_file(file: UploadFile = File(...)):
         return JSONResponse(content={"info": "File uploaded successfully"})
     except Exception as e:
         print(f"Error uploading file: {str(e)}")
+        # Raise HTTP exception on upload failure
         raise HTTPException(status_code=500, detail=f"Error uploading file: {str(e)}")
 
 # Route to serve the calibration page
@@ -108,6 +109,7 @@ async def calibration_page(request: Request, filename: str = Query(...)):
         })
     except Exception as e:
         print(f"Error in calibration page: {str(e)}")
+        # Raise HTTP exception on snapshot creation failure
         raise HTTPException(status_code=500, detail=f"Error creating snapshot: {str(e)}")
 
 # Route to save calibration data
@@ -160,6 +162,7 @@ async def save_calibration(data: dict):
         raise e
     except Exception as e:
         print(f"Error: {str(e)}")
+        # Raise HTTP exception for general errors
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 # Route to download processed video
@@ -169,7 +172,7 @@ async def download_video(video_filename: str = Query(...)):
     video_path = os.path.join(PROCESSED_VIDEOS_DIRECTORY, video_filename)
     if not os.path.exists(video_path):
         raise HTTPException(status_code=404, detail=f"Video file {video_filename} not found")
-
+    # Return video file as a response
     return FileResponse(video_path, filename=video_filename)
 
 # Route to list available calibration files
@@ -211,6 +214,7 @@ async def get_speed_log(log_file: str = Query(...)):
 # Route to serve the speed estimation page
 @app.get("/speed_estimation", response_class=HTMLResponse)
 async def speed_estimation_page(request: Request, calibration_file: str = Query(None)):
+    # Render speed_estimation.html with optional calibration file
     return templates.TemplateResponse(request, "speed_estimation.html", {
         "request": request,
         "calibration_file": calibration_file
@@ -388,4 +392,43 @@ async def process_video(request: ProcessVideoRequest):
         })
     except Exception as e:
         print(f"Error processing video: {str(e)}")
+        # Raise HTTP exception for processing errors
         raise HTTPException(status_code=500, detail=f"Error processing video: {str(e)}")
+
+# Route to serve the reports page
+@app.get("/reports", response_class=HTMLResponse)
+async def reports_page(request: Request):
+    try:
+        # Fetch all reports from the database
+        with Database(DB_CONFIG) as db:
+            reports = db.fetch_reports()
+        print(f"Fetched reports: {reports}")
+        # Render reports.html with the list of reports
+        return templates.TemplateResponse(request, "reports.html", {
+            "request": request,
+            "reports": reports
+        })
+    except Exception as e:
+        print(f"Error fetching reports: {str(e)}")
+        # Raise HTTP exception on error
+        raise HTTPException(status_code=500, detail=f"Error fetching reports: {str(e)}")
+
+# Route to serve a specific report's detail page
+@app.get("/report/{report_id}", response_class=HTMLResponse)
+async def report_detail(request: Request, report_id: str):
+    try:
+        # Fetch report by ID from the database
+        with Database(DB_CONFIG) as db:
+            report = db.fetch_report_by_id(report_id)
+        if not report:
+            raise HTTPException(status_code=404, detail="Report not found")
+        print(f"Fetched report: {report}")
+        # Render report_detail.html with the report data
+        return templates.TemplateResponse(request, "report_detail.html", {
+            "request": request,
+            "report": report
+        })
+    except Exception as e:
+        print(f"Error fetching report: {str(e)}")
+        # Raise HTTP exception on error
+        raise HTTPException(status_code=500, detail=f"Error fetching report: {str(e)}")
