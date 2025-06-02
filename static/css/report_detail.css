@@ -1,0 +1,134 @@
+:root {
+    --primary-color: #99cdef;
+    --secondary-color: #99cdef;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+.main-header {
+    background-color: var(--primary-color);
+    color: rgb(0, 0, 0);
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.header-content {
+    position: relative;
+    width: 100%;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-content h1 {
+    font-size: 2rem;
+    margin: 0;
+    z-index: 1;
+}
+
+.header-icons {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 30px;
+}
+
+.header-icon a, .header-icon i {
+    font-size: 20px;
+    color: #000 !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.report-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    text-align: left;
+}
+
+.report-container h2 {
+    text-align: center; /* Центрування заголовка */
+    margin-bottom: 20px;
+}
+
+.speed-table {
+    width: 100%;
+    max-width: 600px; /* Обмеження ширини для центрування */
+    margin: 20px auto; /* Центрування таблиці */
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.speed-table th, .speed-table td {
+    border: 2px solid #999; /* Посилені межі */
+    padding: 12px;
+    text-align: left;
+}
+
+.speed-table th {
+    background-color: var(--primary-color);
+    color: black;
+    font-weight: bold;
+}
+
+.speed-table td {
+    color: var(--text-color);
+}
+
+.video-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+video {
+    max-width: 800px;
+    width: 100%;
+}
+
+.pdf-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px auto; /* Центрування кнопки */
+    display: block; /* Для margin: auto */
+}
+
+.pdf-button:hover {
+    background-color: #45a049;
+}
+
+/* Сховати хедер у PDF */
+@media print {
+    .main-header {
+        display: none;
+    }
+    body {
+        background: white;
+    }
+}

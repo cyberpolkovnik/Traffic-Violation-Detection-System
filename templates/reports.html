@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Traffic Reports</title>
+    <link rel="stylesheet" href="/static/css/reports.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>Traffic Reports</h1>
+            <div class="header-icon">
+                <a href="/"><i class="fa-solid fa-house"></i></a>
+            </div>
+        </div>
+    </header>
+    <div>
+        <table class="reports-table">
+            <thead>
+                <tr>
+                    <th>Track ID</th>
+                    <th>Speed (km/h)</th>
+                    <th>Duration (s)</th>
+                    <th>Timestamp</th>
+                    <th>Video Clip</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report.track_id }}</td>
+                    <td>{{ report.speed_kmh }}</td>
+                    <td>{{ report.duration_s }}</td>
+                    <td>{{ report.timestamp }}</td>
+                    <td><a href="/report/{{ report.id }}">View Clip</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

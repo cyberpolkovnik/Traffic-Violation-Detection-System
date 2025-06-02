@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Detail Report</title>
+    <link rel="stylesheet" href="/static/css/report_detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>Traffic Detail Report</h1>
+            <div class="header-icons">
+                <div class="header-icon">
+                    <a href="/" title="На головну"><i class="fa-solid fa-house"></i></a>
+                </div>
+                <div class="header-icon">
+                    <a href="/reports" title="Переглянути Звіти"><i class="fa-regular fa-file"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="report-container" id="report-content">
+        <h2>Report detail #{{ report.id }}</h2>
+        <table class="speed-table">
+            <tr><th>Track ID</th><td>{{ report.track_id }}</td></tr>
+            <tr><th>Speed (km/h)</th><td>{{ report.speed_kmh }}</td></tr>
+            <tr><th>Duration (с)</th><td>{{ report.duration_s }}</td></tr>
+            <tr><th>Time</th><td>{{ report.timestamp }}</td></tr>
+            <tr><th>Video</th><td>{{ report.video_filename }}</td></tr>
+            <tr><th>Created at</th><td>{{ report.created_at }}</td></tr>
+        </table>
+        <div class="video-container">
+            <video controls>
+                <source src="{{ report.clip_path }}" type="video/mp4">
+                Ваш браузер не підтримує тег відео.
+            </video>
+        </div>
+        <button class="pdf-button" id="generate-pdf">Download PDF</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('generate-pdf');
+            if (!button) {
+                console.error('Button with id "generate-pdf" not found');
+                return;
+            }
+            button.addEventListener('click', () => {
+                console.log('Generate PDF button clicked');
+                try {
+                    const element = document.getElementById('report-content');
+                    if (!element) {
+                        console.error('Element with id "report-content" not found');
+                        return;
+                    }
+                    const reportId = "{{ report.id }}";
+                    const opt = {
+                        margin: [0.5, 0.5],
+                        filename: `report_${reportId}.pdf`,
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2 },
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+                    html2pdf().set(opt).from(element).save().catch(err => {
+                        console.error('Error generating PDF:', err);
+                    });
+                } catch (err) {
+                    console.error('Error in PDF generation:', err);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
