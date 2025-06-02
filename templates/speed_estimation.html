@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Speed Estimation</title>
+    <link rel="stylesheet" href="/static/css/estimation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>Speed Estimation</h1>
+        </div>
+    </header>
+
+    <div>
+        <h2>Processed Video and Speed Logs</h2>
+        <button class="process-button" id="process-video">Process Video</button>
+        <div class="video-container">
+            <video id="processed-video" controls>
+                <source id="video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-controls">
+                <button class="control-button" id="play-pause">Play</button>
+                <button class="control-button" id="slow-down">Slow Down (x0.5)</button>
+                <button class="control-button" id="speed-up">Speed Up (x2)</button>
+            </div>
+        </div>
+        <table class="speed-table" id="speed-table">
+            <thead>
+                <tr>
+                    <th>Track ID</th>
+                    <th>Speed (km/h)</th>
+                    <th>Duration (s)</th>
+                </tr>
+            </thead>
+            <tbody id="speed-table-body"></tbody>
+        </table>
+    </div>
+    <script>
+        const CALIBRATION_FILE = "{{ calibration_file | safe }}";
+        const VIDEO_FILENAME = "{{ calibration_file | safe }}".replace('.json', '');
+    </script>
+    <script src="/static/js/estimation.js"></script>
+</body>
+</html>
