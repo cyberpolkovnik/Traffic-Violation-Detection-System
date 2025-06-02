@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Speed Estimation</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>Speed Estimation</h1>
+        </div>
+    </header>
+
+    <main>
+        <div id="drop-area">
+            <form class="my-form" onsubmit="return false;">
+                <p>Drag and drop your video here or click to select</p>
+                <input type="file" id="fileElem" accept="video/*" hidden onchange="storeFile(this.files[0])">
+                <label class="button" for="fileElem">Select a file</label>
+            </form>
+        </div>
+
+        <div class="file-and-button">
+            <div id="file-name" class="file-name">No file selected</div>
+            <div class="upload-button-container">
+                <button id="uploadBtn" class="button upload-button" disabled>Upload video</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
